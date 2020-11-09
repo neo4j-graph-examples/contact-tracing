@@ -1,0 +1,65 @@
+:name: contact-tracing
+:long_name: Contact Tracing
+:description: Tracing Infections between people based on their contacts
+:icon: 
+:logo: documentation/img/contact-tracing.jpg
+:tags: healtcare,covid
+:author: Rik van Bruggen
+:use-load-script: 
+:data: 
+:use-dump-file: data/contact-tracing-40.dump
+:use-plugin: 
+:target-db-version: 3.5,4.0
+:bloom-perspective: bloom/northwind.bloom-perspective
+:guide: documentation/guide.adoc
+:rendered-guide: https://guides.neo4j.com/sandbox/contact-tracing/index.html
+:model: documentation/img/model.svg
+:example: documentation/img/example.svg
+
+:query: MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place) +
+ WHERE p.confirmedtime < v.starttime +
+ RETURN distinct p.name as place +
+
+:param-name: status
+:param-value: Sick
+:result-column: place
+:expected-result: XXX
+
+:model-guide:
+:todo: 
+image::{logo}[]
+
+= {long_name} Graph Example
+
+Description: _{description}_
+
+.Model
+image::{model}[]
+
+.Example
+image::{example}[width=600]
+
+.Example Query:
+[source,cypher,subs=attributes]
+----
+{query}
+----
+
+=== Setup
+
+This is for Neo4j version: `{target-db-version}`
+
+
+Rendered guide available from: `:play {rendered-guide}`
+
+Unrendered guide: link:{guide}[]
+
+Data files: `{data}`
+
+=== Code Examples
+
+* link:code/javascript/example.js[JavaScript]
+* link:code/java/Example.java[Java]
+* link:code/csharp/Example.cs[C#]
+* link:code/python/example.py[Python]
+* link:code/go/example.go[Go]
