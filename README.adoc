@@ -45,6 +45,15 @@ image::{example}[width=600]
 {query}
 ----
 
+=== Articles
+
+Rik has written 4 articles for this dataset
+
+* [Part https://blog.bruggen.com/2020/04/covid-19-contact-tracing-blogpost-part.html1]: How to create a synthetic dataset and import that into Neo4j
+* https://blog.bruggen.com/2020/04/covid-19-contact-tracing-blogpost-part_21.html[Part 2]: How to start running some interesting queries on the dataset. Understand some of the interesting data points in there and questions that one might ask
+* https://blog.bruggen.com/2020/04/covid-19-contact-tracing-blogpost-part_61.html[Part 3]: How to use Graph Data Science on this dataset, and understand some of the predictive metrics like PageRank, Betweenness Centrality and use community detection to direct policies.
+* https://blog.bruggen.com/2020/04/covid-19-contact-tracing-blogpost-part_0.html[Part 4]: A number of loose ends touched on during exploration of the dataset - but surely not exhaustive.
+
 === Setup
 
 This is for Neo4j version: `{target-db-version}`
@@ -63,3 +72,4 @@ Data files: `{data}`
 * link:code/csharp/Example.cs[C#]
 * link:code/python/example.py[Python]
 * link:code/go/example.go[Go]
+
