@@ -3,14 +3,14 @@
 :description: Tracing Infections between people based on their contacts
 :icon: 
 :logo: documentation/img/contact-tracing.jpg
-:tags: healtcare,covid
+:tags: healthcare,covid
 :author: Rik van Bruggen
 :use-load-script: 
 :data: 
 :use-dump-file: data/contact-tracing-40.dump
 :use-plugin: 
 :target-db-version: 3.5,4.0
-:bloom-perspective: bloom/northwind.bloom-perspective
+:bloom-perspective: bloom/contact-tracing.bloom-perspective
 :guide: documentation/guide.adoc
 :rendered-guide: https://guides.neo4j.com/sandbox/contact-tracing/index.html
 :model: documentation/img/model.svg
