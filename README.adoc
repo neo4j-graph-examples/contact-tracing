@@ -2,7 +2,7 @@
 :long_name: Contact Tracing
 :description: Tracing infections between people based on their contacts
 :icon: 
-:logo: documentation/img/contact-tracing.jpg
+:logo: documentation/img/tracing.jpg
 :tags: example-data,dataset,covid-data,contact-tracing,healthcare,covid19,data-science
 :author: Rik van Bruggen
 :use-load-script: 
