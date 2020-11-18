@@ -1,9 +1,9 @@
 :name: contact-tracing
 :long_name: Contact Tracing
-:description: Tracing Infections between people based on their contacts
+:description: Tracing infections between people based on their contacts
 :icon: 
 :logo: documentation/img/contact-tracing.jpg
-:tags: healthcare,covid
+:tags: example-data,dataset,covid-data,contact-tracing,healthcare,covid19,data-science
 :author: Rik van Bruggen
 :use-load-script: 
 :data: 
@@ -11,25 +11,25 @@
 :use-plugin: 
 :target-db-version: 3.5,4.0
 :bloom-perspective: bloom/contact-tracing.bloom-perspective
-:guide: documentation/guide.adoc
+:guide: documentation/contact-tracing.neo4j-browser-guide
 :rendered-guide: https://guides.neo4j.com/sandbox/contact-tracing/index.html
-:model: documentation/img/model.svg
-:example: documentation/img/example.svg
+:model: documentation/img/model.png
+:example: documentation/img/example.png
 
 :query: MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place) +
  WHERE p.confirmedtime < v.starttime +
- RETURN distinct p.name as place +
+ RETURN distinct pl.name as place LIMIT 20 +
 
 :param-name: status
 :param-value: Sick
 :result-column: place
-:expected-result: XXX
+:expected-result: Place nr 1
 
 :model-guide:
 :todo: 
-image::{logo}[]
+image::{logo}[width=100]
 
-= {long_name} Graph Example
+== {long_name} Graph Example
 
 Description: _{description}_
 
@@ -47,7 +47,7 @@ image::{example}[width=600]
 
 === Articles
 
-Rik has written 4 articles for this dataset
+Rik has written 4 articles for this dataset, listed below.
 
 * https://blog.bruggen.com/2020/04/covid-19-contact-tracing-blogpost-part.html[Part 1^]: How to create a synthetic dataset and import that into Neo4j
 * https://blog.bruggen.com/2020/04/covid-19-contact-tracing-blogpost-part_21.html[Part 2^]: How to start running some interesting queries on the dataset. Understand some of the interesting data points in there and questions that one might ask
@@ -58,12 +58,12 @@ Rik has written 4 articles for this dataset
 
 This is for Neo4j version: `{target-db-version}`
 
-
-Rendered guide available from: `:play {rendered-guide}`
+Rendered guide available from: `:play contact-tracing` 
+// or `:play {rendered-guide}``
 
 Unrendered guide: link:{guide}[]
 
-Data files: `{data}`
+Data files: `{use-dump-file}`
 
 === Code Examples
 
@@ -72,4 +72,3 @@ Data files: `{data}`
 * link:code/csharp/Example.cs[C#]
 * link:code/python/example.py[Python]
 * link:code/go/example.go[Go]
-
