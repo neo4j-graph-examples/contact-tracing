@@ -8,7 +8,7 @@
 :use-load-script: 
 :data: 
 :use-dump-file: data/contact-tracing-40.dump
-:use-plugin: 
+:use-plugin: gds
 :target-db-version: 3.5,4.0
 :bloom-perspective: bloom/contact-tracing.bloom-perspective
 :guide: documentation/contact-tracing.neo4j-browser-guide
