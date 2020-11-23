@@ -1,5 +1,5 @@
 :name: contact-tracing
-:long_name: Contact Tracing
+:long-name: Contact Tracing
 :description: Tracing infections between people based on their contacts
 :icon: 
 :logo: documentation/img/tracing.jpg
@@ -29,7 +29,7 @@
 :todo: 
 image::{logo}[width=100]
 
-== {long_name} Graph Example
+== {long-name} Graph Example
 
 Description: _{description}_
 
