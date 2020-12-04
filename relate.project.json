@@ -1,7 +1,7 @@
 {
     "name": "contact-tracing",
     "description":"Tracing infections between people based on their contacts",
-    "install": [
+    "dbms": [
       {
           "dumpFile": "data/contact-tracing-35.dump",
           "targetNeo4jVersion":"3.5"
