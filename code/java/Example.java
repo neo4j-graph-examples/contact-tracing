@@ -17,8 +17,8 @@ public class Example {
     try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
 
       String cypherQuery =
-        "MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place)" +
-        "WHERE p.confirmedtime < v.starttime" +
+        "MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place) " +
+        "WHERE p.confirmedtime < v.starttime " +
         "RETURN distinct pl.name as place LIMIT 20";
 
       var result = session.readTransaction(
