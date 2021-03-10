@@ -7,9 +7,9 @@ const driver = neo4j.driver('bolt://<HOST>:<BOLTPORT>',
 
 const query =
   `
-  MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place) 
-  WHERE p.confirmedtime < v.starttime 
-  RETURN distinct pl.name as place LIMIT 20
+  MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place)
+   WHERE p.confirmedtime < v.starttime
+   RETURN distinct pl.name as place LIMIT 20
   `;
 
 const params = {"status": "Sick"};
