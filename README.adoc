@@ -17,15 +17,6 @@
 :model: documentation/img/model.png
 :example: documentation/img/example.png
 
-:query: MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place) +
- WHERE p.confirmedtime < v.starttime +
- RETURN distinct pl.name as place LIMIT 20 +
-
-:param-name: status
-:param-value: Sick
-:result-column: place
-:expected-result: Place nr 1
-
 :todo: false
 image::{icon}[width=100]
 
@@ -44,9 +35,11 @@ image::{model}[]
 image::{example}[width=600]
 
 .Example Query:
-[source,cypher,subs=attributes]
+[source,cypher,role=query-example,param-name=status,param-value=Sick,result-column=place,expected-result="Place nr 1"]
 ----
-{query}
+MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place)
+ WHERE p.confirmedtime < v.starttime
+ RETURN distinct pl.name as place LIMIT 20
 ----
 
 === Setup
