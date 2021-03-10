@@ -30,9 +30,9 @@ func runQuery(uri, database, username, password string) (result []string, err er
 	results, err := session.ReadTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
 		result, err := transaction.Run(
 			`
-			MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place) 
-			WHERE p.confirmedtime < v.starttime 
-			RETURN distinct pl.name as place LIMIT 20
+			MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place)
+			 WHERE p.confirmedtime < v.starttime
+			 RETURN distinct pl.name as place LIMIT 20
 			`, map[string]interface{}{
 				"status": "Sick",
 			})

@@ -18,9 +18,9 @@ namespace dotnet {
 
     var cypherQuery =
       @"
-      MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place) 
-      WHERE p.confirmedtime < v.starttime 
-      RETURN distinct pl.name as place LIMIT 20
+      MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place)
+       WHERE p.confirmedtime < v.starttime
+       RETURN distinct pl.name as place LIMIT 20
       ";
 
     var session = driver.AsyncSession(o => o.WithDatabase("neo4j"));
