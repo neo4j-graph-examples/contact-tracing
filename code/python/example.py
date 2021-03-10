@@ -8,9 +8,9 @@ driver = GraphDatabase.driver(
   auth=basic_auth("<USERNAME>", "<PASSWORD>"))
 
 cypher_query = '''
-MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place) 
-WHERE p.confirmedtime < v.starttime 
-RETURN distinct pl.name as place LIMIT 20
+MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place)
+ WHERE p.confirmedtime < v.starttime
+ RETURN distinct pl.name as place LIMIT 20
 '''
 
 with driver.session(database="neo4j") as session:
