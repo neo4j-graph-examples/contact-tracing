@@ -264,7 +264,7 @@ RETURN p, r, conn;
 [source,cypher]
 ----
 CALL gds.betweenness.write(
-  'pr'
+  'pr',
   {writeProperty: 'betweenness'}
 )
 ----
