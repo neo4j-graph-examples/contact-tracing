@@ -263,11 +263,10 @@ RETURN p, r, conn;
 
 [source,cypher]
 ----
-CALL gds.betweenness.write({
-  nodeProjection: 'Person',
-  relationshipProjection: 'MEETS',
-  writeProperty: 'betweenness'
-});
+CALL gds.betweenness.write(
+  'pr'
+  {writeProperty: 'betweenness'}
+)
 ----
 
 == Graph Data Science: Betweenness Centrality
