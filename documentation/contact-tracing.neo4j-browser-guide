@@ -288,10 +288,10 @@ ORDER BY overlaptime DESC;<!--/code--></pre>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (hp:Person {healthstatus:"Healthy"})-[v1:VISITS]-&gt;(pl:Place)&lt;-[v2:VISITS]-(sp:Person {healthstatus:"Sick"})
-WITH hp, apoc.coll.max([v1.starttime.epochMillis, v2.starttime.epochMillis]) AS maxStart,
-     apoc.coll.min([v1.endtime.epochMillis, v2.endtime.epochMillis]) AS minEnd
+WITH hp, case when v1.starttime &gt; v2.starttime then v1.starttime else v2.starttime end AS maxStart,
+     case when v1.endtime &gt; v2.endtime then v1.endtime else v2.endtime end  AS minEnd
 WHERE maxStart &lt;= minEnd
-WITH hp, sum(minEnd-maxStart) AS overlaptime
+WITH hp, sum(duration.inSeconds(maxStart,minEnd)) AS overlaptime
 ORDER BY overlaptime DESC
 LIMIT 10
 MATCH (hp)-[v]-(pl:Place)
@@ -357,11 +357,11 @@ RETURN pl,p,v;<!--/code--></pre>
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p1:Person)-[v1:VISITS]-&gt;(pl:Place)&lt;-[v2:VISITS]-(p2:Person)
 WHERE id(p1)&lt;id(p2)
-WITH p1, p2, apoc.coll.max([v1.starttime.epochMillis, v2.starttime.epochMillis]) AS maxStart,
-    apoc.coll.min([v1.endtime.epochMillis, v2.endtime.epochMillis]) AS minEnd
+WITH p1, p2,  case when v1.starttime &gt; v2.starttime then v1.starttime else v2.starttime end AS maxStart,
+    case when v1.endtime &gt; v2.endtime then v1.endtime else v2.endtime end AS minEnd
 WHERE maxStart &lt;= minEnd
-WITH p1, p2, sum(minEnd-maxStart) AS meetTime
-CREATE (p1)-[:MEETS {meettime: duration({seconds: meetTime/1000})}]-&gt;(p2);<!--/code--></pre>
+WITH p1, p2, sum(duration.inSeconds(maxStart,minEnd)) AS meetTime
+CREATE (p1)-[:MEETS {meettimeinseconds: meetTime.seconds}]-&gt;(p2);<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -420,8 +420,8 @@ ORDER BY pagerank DESC LIMIT 10;<!--/code--></pre>
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE EXISTS(p.pagerank)
 WITH p, p.pagerank AS score
 ORDER BY score DESC LIMIT 10
-MATCH (p)-[r]-(conn)
-RETURN p, r, conn;<!--/code--></pre>
+MATCH (p)-[r:PERFORMS_VISIT|LOCATED_AT|VISITS]-(conn)
+RETURN p, r, conn LIMIT 50;<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -476,8 +476,8 @@ LIMIT 10;<!--/code--></pre>
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE EXISTS(p.betweenness)
 WITH p, p.betweenness AS score
 ORDER BY score DESC LIMIT 10
-MATCH (p)-[r]-(conn)
-RETURN p, r, conn;<!--/code--></pre>
+MATCH (p)-[r:PERFORMS_VISIT|LOCATED_AT|VISITS]-(conn)
+RETURN p, r, conn LIMIT 50;<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -492,13 +492,7 @@ RETURN p, r, conn;<!--/code--></pre>
     <br/>
     <div>
       <div class="paragraph">
-<p>Since the Louvain algorithm can take advantage of relationship weights, let&#8217;s add a relationship property to our <code>MEETS</code> relationship.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH p=()-[r:MEETS]-&gt;()
-SET r.meettimeinseconds = r.meettime.seconds;<!--/code--></pre>
-</div>
+<p>Since the Louvain algorithm can take advantage of relationship weights, we can use the <code>meettimeinseconds</code> for that.</p>
 </div>
 <div class="paragraph">
 <p><strong>Now we can calculate communities using the Louvain algorithm</strong></p>
