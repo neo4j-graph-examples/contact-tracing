@@ -55,7 +55,7 @@
     <div>
       <div class="imageblock" style="float: right;">
 <div class="content">
-<img src="http://guides.neo4j.com/sandbox/contact-tracing/img/tracing.jpg" alt="tracing" width="400">
+<img src="https://guides.neo4j.com/sandbox/contact-tracing/img/tracing.jpg" alt="tracing" width="400">
 </div>
 </div>
 <div class="paragraph">
@@ -380,11 +380,15 @@ CREATE (p1)-[:MEETS {meettime: duration({seconds: meetTime/1000})}]-&gt;(p2);<!-
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL gds.pageRank.write({
-  nodeProjection: 'Person',
-  relationshipProjection: 'MEETS',
-  writeProperty: 'pagerank'
-});<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL gds.graph.project('meetings', 'Person', 'MEETS')<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL gds.pageRank.write(
+  'meetings',
+  {writeProperty: 'pagerank'}
+)<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -436,11 +440,10 @@ RETURN p, r, conn;<!--/code--></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL gds.betweenness.write({
-  nodeProjection: 'Person',
-  relationshipProjection: 'MEETS',
-  writeProperty: 'betweenness'
-});<!--/code--></pre>
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL gds.betweenness.write(
+  'meetings',
+  {writeProperty: 'betweenness'}
+)<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -502,25 +505,30 @@ SET r.meettimeinseconds = r.meettime.seconds;<!--/code--></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL gds.louvain.write({
-  nodeProjection: 'Person',
-  relationshipProjection: {
-    relType: {
-      type: 'MEETS',
-      orientation: 'NATURAL',
-      properties: {
-        meettimeinseconds: {
-          property: 'meettimeinseconds',
-          defaultValue: 1
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL gds.graph.project(
+  'meetings_with_time',
+  'Person',
+  {
+    MEETS: {
+      orientation: 'UNDIRECTED',
+      properties:
+        {weight:
+          {
+            property: 'meettimeinseconds',
+            default: 1
+          }
         }
-      }
     }
-  },
-  relationshipWeightProperty: 'meettimeinseconds',
-  includeIntermediateCommunities: false,
-  seedProperty: '',
-  writeProperty: 'louvain'
-});<!--/code--></pre>
+  }
+)<!--/code--></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->CALL gds.louvain.write(
+  'meetings_with_time',
+  {writeProperty: 'community'}
+)<!--/code--></pre>
 </div>
 </div>
 	</div>
@@ -540,7 +548,7 @@ SET r.meettimeinseconds = r.meettime.seconds;<!--/code--></pre>
 <div class="listingblock">
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person)
-RETURN DISTINCT p.louvain, count(p)
+RETURN DISTINCT p.community, count(p)
 ORDER BY COUNT(p) DESC;<!--/code--></pre>
 </div>
 </div>
