@@ -223,11 +223,15 @@ CREATE (p1)-[:MEETS {meettime: duration({seconds: meetTime/1000})}]->(p2);
 
 [source,cypher]
 ----
-CALL gds.pageRank.write({
-  nodeProjection: 'Person',
-  relationshipProjection: 'MEETS',
-  writeProperty: 'pagerank'
-});
+CALL gds.graph.project('meetings', 'Person', 'MEETS')
+----
+
+[source,cypher]
+----
+CALL gds.pageRank.write(
+  'meetings',
+  {writeProperty: 'pagerank'}
+)
 ----
 
 == Graph Data Science: PageRank
@@ -259,11 +263,10 @@ RETURN p, r, conn;
 
 [source,cypher]
 ----
-CALL gds.betweenness.write({
-  nodeProjection: 'Person',
-  relationshipProjection: 'MEETS',
-  writeProperty: 'betweenness'
-});
+CALL gds.betweenness.write(
+  'meetings',
+  {writeProperty: 'betweenness'}
+)
 ----
 
 == Graph Data Science: Betweenness Centrality
@@ -304,25 +307,30 @@ SET r.meettimeinseconds = r.meettime.seconds;
 
 [source,cypher]
 ----
-CALL gds.louvain.write({
-  nodeProjection: 'Person',
-  relationshipProjection: {
-    relType: {
-      type: 'MEETS',
-      orientation: 'NATURAL',
-      properties: {
-        meettimeinseconds: {
-          property: 'meettimeinseconds',
-          defaultValue: 1
+CALL gds.graph.project(
+  'meetings_with_time',
+  'Person',
+  {
+    MEETS: {
+      orientation: 'UNDIRECTED',
+      properties: 
+        {weight: 
+          {
+            property: 'meettimeinseconds', 
+            default: 1
+          }
         }
-      }
     }
-  },
-  relationshipWeightProperty: 'meettimeinseconds',
-  includeIntermediateCommunities: false,
-  seedProperty: '',
-  writeProperty: 'louvain'
-});
+  }
+)
+----
+
+[source,cypher]
+----
+CALL gds.louvain.write(
+  'meetings_with_time',
+  {writeProperty: 'community'}
+)
 ----
 
 == Graph Data Science - Louvain Community Detection
@@ -332,7 +340,7 @@ CALL gds.louvain.write({
 [source, cypher]
 ----
 MATCH (p:Person)
-RETURN DISTINCT p.louvain, count(p)
+RETURN DISTINCT p.community, count(p)
 ORDER BY COUNT(p) DESC;
 ----
 
