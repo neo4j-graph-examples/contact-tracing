@@ -223,11 +223,15 @@ CREATE (p1)-[:MEETS {meettime: duration({seconds: meetTime/1000})}]->(p2);
 
 [source,cypher]
 ----
-CALL gds.pageRank.write({
-  nodeProjection: 'Person',
-  relationshipProjection: 'MEETS',
-  writeProperty: 'pagerank'
-});
+CALL gds.graph.project('pr', 'Person', 'MEETS')
+----
+
+[source,cypher]
+----
+CALL gds.pageRank.write(
+  'pr',
+  {writeProperty: 'pagerank'}
+)
 ----
 
 == Graph Data Science: PageRank
