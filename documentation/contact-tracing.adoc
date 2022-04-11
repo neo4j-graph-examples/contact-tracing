@@ -340,7 +340,7 @@ CALL gds.louvain.write(
 [source, cypher]
 ----
 MATCH (p:Person)
-RETURN DISTINCT p.louvain, count(p)
+RETURN DISTINCT p.community, count(p)
 ORDER BY COUNT(p) DESC;
 ----
 
