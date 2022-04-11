@@ -333,29 +333,6 @@ CALL gds.louvain.write(
 )
 ----
 
-[source,cypher]
-----
-CALL gds.louvain.write({
-  nodeProjection: 'Person',
-  relationshipProjection: {
-    relType: {
-      type: 'MEETS',
-      orientation: 'NATURAL',
-      properties: {
-        meettimeinseconds: {
-          property: 'meettimeinseconds',
-          defaultValue: 1
-        }
-      }
-    }
-  },
-  relationshipWeightProperty: 'meettimeinseconds',
-  includeIntermediateCommunities: false,
-  seedProperty: '',
-  writeProperty: 'louvain'
-});
-----
-
 == Graph Data Science - Louvain Community Detection
 
 **What are the different communities?**
