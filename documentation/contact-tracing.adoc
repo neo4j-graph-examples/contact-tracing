@@ -223,13 +223,13 @@ CREATE (p1)-[:MEETS {meettime: duration({seconds: meetTime/1000})}]->(p2);
 
 [source,cypher]
 ----
-CALL gds.graph.project('pr', 'Person', 'MEETS')
+CALL gds.graph.project('meetings', 'Person', 'MEETS')
 ----
 
 [source,cypher]
 ----
 CALL gds.pageRank.write(
-  'pr',
+  'meetings',
   {writeProperty: 'pagerank'}
 )
 ----
@@ -264,7 +264,7 @@ RETURN p, r, conn;
 [source,cypher]
 ----
 CALL gds.betweenness.write(
-  'pr',
+  'meetings',
   {writeProperty: 'betweenness'}
 )
 ----
@@ -308,7 +308,7 @@ SET r.meettimeinseconds = r.meettime.seconds;
 [source,cypher]
 ----
 CALL gds.graph.project(
-  'pr_with_time',
+  'meetings_with_time',
   'Person',
   {
     MEETS: {
@@ -328,7 +328,7 @@ CALL gds.graph.project(
 [source,cypher]
 ----
 CALL gds.louvain.write(
-  'pr_with_time',
+  'meetings_with_time',
   {writeProperty: 'community'}
 )
 ----
