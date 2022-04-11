@@ -307,6 +307,34 @@ SET r.meettimeinseconds = r.meettime.seconds;
 
 [source,cypher]
 ----
+CALL gds.graph.project(
+  'pr_with_time',
+  'Person',
+  {
+    MEETS: {
+      orientation: 'UNDIRECTED',
+      properties: 
+        {weight: 
+          {
+            property: 'meettimeinseconds', 
+            default: 1
+          }
+        }
+    }
+  }
+)
+----
+
+[source,cypher]
+----
+CALL gds.louvain.write(
+  'pr_with_time',
+  {writeProperty: 'community'}
+)
+----
+
+[source,cypher]
+----
 CALL gds.louvain.write({
   nodeProjection: 'Person',
   relationshipProjection: {
