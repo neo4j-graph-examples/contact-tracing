@@ -240,7 +240,7 @@ CALL gds.pageRank.write(
 
 [source, cypher]
 ----
-MATCH (p:Person) WHERE EXISTS(p.pagerank)
+MATCH (p:Person) WHERE p.pagerank IS NOT NULL
 RETURN p.name as name, p.pagerank AS pagerank
 ORDER BY pagerank DESC LIMIT 10;
 ----
@@ -249,7 +249,7 @@ ORDER BY pagerank DESC LIMIT 10;
 
 [source, cypher]
 ----
-MATCH (p:Person) WHERE EXISTS(p.pagerank)
+MATCH (p:Person) WHERE p.pagerank IS NOT NULL
 WITH p, p.pagerank AS score
 ORDER BY score DESC LIMIT 10
 MATCH (p)-[r:PERFORMS_VISIT|LOCATED_AT|VISITS]-(conn)
@@ -275,7 +275,7 @@ CALL gds.betweenness.write(
 
 [source, cypher]
 ----
-MATCH (p:Person) WHERE EXISTS(p.betweenness)
+MATCH (p:Person) WHERE p.betweenness IS NOT NULL
 RETURN p.name as name, p.pagerank AS pagerank, p.betweenness AS betweenness
 ORDER BY betweenness DESC
 LIMIT 10;
@@ -285,7 +285,7 @@ LIMIT 10;
 
 [source, cypher]
 ----
-MATCH (p:Person) WHERE EXISTS(p.betweenness)
+MATCH (p:Person) WHERE p.betweenness IS NOT NULL
 WITH p, p.betweenness AS score
 ORDER BY score DESC LIMIT 10
 MATCH (p)-[r:PERFORMS_VISIT|LOCATED_AT|VISITS]-(conn)

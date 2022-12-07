@@ -6,7 +6,7 @@
 */	
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
 
-.imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+.imageblock .content img, .image img {max-width: 100%;}
 .deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
 .listingblock {margin:8px;}
 .pull-bottom {position:relative;bottom:1em;}
@@ -407,7 +407,7 @@ CREATE (p1)-[:MEETS {meettimeinseconds: meetTime.seconds}]-&gt;(p2);<!--/code-->
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE EXISTS(p.pagerank)
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE p.pagerank IS NOT NULL
 RETURN p.name as name, p.pagerank AS pagerank
 ORDER BY pagerank DESC LIMIT 10;<!--/code--></pre>
 </div>
@@ -417,7 +417,7 @@ ORDER BY pagerank DESC LIMIT 10;<!--/code--></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE EXISTS(p.pagerank)
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE p.pagerank IS NOT NULL
 WITH p, p.pagerank AS score
 ORDER BY score DESC LIMIT 10
 MATCH (p)-[r:PERFORMS_VISIT|LOCATED_AT|VISITS]-(conn)
@@ -462,7 +462,7 @@ RETURN p, r, conn LIMIT 50;<!--/code--></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE EXISTS(p.betweenness)
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE p.betweenness IS NOT NULL
 RETURN p.name as name, p.pagerank AS pagerank, p.betweenness AS betweenness
 ORDER BY betweenness DESC
 LIMIT 10;<!--/code--></pre>
@@ -473,7 +473,7 @@ LIMIT 10;<!--/code--></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE EXISTS(p.betweenness)
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p:Person) WHERE p.betweenness IS NOT NULL
 WITH p, p.betweenness AS score
 ORDER BY score DESC LIMIT 10
 MATCH (p)-[r:PERFORMS_VISIT|LOCATED_AT|VISITS]-(conn)
