@@ -1,11 +1,7 @@
-# pip3 install neo4j-driver
+# pip3 install neo4j
 # python3 example.py
 
 from neo4j import GraphDatabase, basic_auth
-
-driver = GraphDatabase.driver(
-  "neo4j://<HOST>:<BOLTPORT>",
-  auth=basic_auth("<USERNAME>", "<PASSWORD>"))
 
 cypher_query = '''
 MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place)
@@ -13,11 +9,13 @@ MATCH (p:Person {healthstatus:$status})-[v:VISITS]->(pl:Place)
  RETURN distinct pl.name as place LIMIT 20
 '''
 
-with driver.session(database="neo4j") as session:
-  results = session.read_transaction(
-    lambda tx: tx.run(cypher_query,
-                      status="Sick").data())
-  for record in results:
-    print(record['place'])
-
-driver.close()
+with GraphDatabase.driver(
+    "neo4j://<HOST>:<BOLTPORT>",
+    auth=("<USERNAME>", "<PASSWORD>")
+) as driver:
+    result = driver.execute_query(
+        cypher_query,
+        status="Sick",
+        database_="neo4j")
+    for record in result.records:
+        print(record['place'])
